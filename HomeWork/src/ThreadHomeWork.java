@@ -1,6 +1,7 @@
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
 
+//d
 public class ThreadHomeWork extends JFrame implements Runnable{
 	CalendarSwing2 calendar = new CalendarSwing2();
 	DigitalClock clock = new DigitalClock();
