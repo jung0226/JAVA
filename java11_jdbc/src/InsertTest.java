@@ -10,7 +10,7 @@ public class InsertTest {
 	// static을 이용해 멤버에 수행문 입력가능
 	static {
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");// 경로
+			Class.forName("oracle.jdbc.driver.OracleDriver");// 경로, 드라이버로드
 		} catch (ClassNotFoundException c) {
 			System.out.println("드라이브 에러발생---> " + c.getMessage());
 		}
@@ -19,15 +19,13 @@ public class InsertTest {
 	PreparedStatement pstmt;
 	
 	public InsertTest() {
-		// jdbc드라이브 등록
+		// jdbc드라이브 등록0
 //		try {
 //		Class.forName("oracle.jdbc.driver.OracleDriver");//경로
 //		}catch(ClassNotFoundException c) {
 //			System.out.println("드라이브 에러발생---> "+ c.getMessage());
 //		}
 		
-		
-
 	}
 
 	/*
@@ -92,11 +90,8 @@ public class InsertTest {
 				}catch(SQLException s) {
 					System.out.println("DB닫기 에러");
 				}
-			}//finally
-			
-			
-			
-		}
+			}//finally			
+		}//while
 	}
 
 	public static void main(String[] args) {
