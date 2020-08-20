@@ -1,5 +1,4 @@
-
-
+import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -7,22 +6,20 @@ import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class PackMan extends JFrame implements Runnable{
+public class PackMan extends JPanel implements Runnable{
 	Image img;
 	int x, y;
 	int p=0;
 	MyCanvas canvas;
-	public void run() {
-		
+	public PackMan() {
+		setLayout(new BorderLayout());
 		
 		img=Toolkit.getDefaultToolkit().getImage("img/packman.jpg");
 		
 		canvas = new MyCanvas();
 		add(canvas);
-		x = this.getWidth()/2 - 25;
-		y = this.getHeight()/2 - 25;		
 		
 		//KeyEvent
 		addKeyListener(new KeyAdapter() {
@@ -38,13 +35,27 @@ public class PackMan extends JFrame implements Runnable{
 				}else if(key == KeyEvent.VK_DOWN|| key==KeyEvent.VK_S) {
 					p=6;
 				}else if(key==KeyEvent.VK_ESCAPE) {
-					dispose();
 					System.exit(0);
 				}
 			}
-		});
+		});	
+	}
+
+	class MyCanvas extends Canvas{		
+		MyCanvas(){}
+		public void paint(Graphics g) {//paint메소드가 있으면 알아서 호출함.
+			//				canvas		       image
+			//								   0	0	50	50
+			//								   50	0	100	50
+			g.drawImage(img, x, y, x+50, y+50, p*50, 0, p*50+50, 50, this);			
+		}
+	}
+	
+	public void run() {
 		
-		//
+		x = this.getWidth()/2 - 25;
+		y = this.getHeight()/2 - 25;	
+		
 		while(true) {
 			canvas.repaint();
 			//방향 전환
@@ -77,17 +88,6 @@ public class PackMan extends JFrame implements Runnable{
 			try {
 				Thread.sleep(500);
 			}catch(Exception e) {}
-		}
-	}
-
-	
-	class MyCanvas extends Canvas{		
-		MyCanvas(){}
-		public void paint(Graphics g) {//paint메소드가 있으면 알아서 호출함.
-			//				canvas		       image
-			//								   0	0	50	50
-			//								   50	0	100	50
-			g.drawImage(img, x, y, x+50, y+50, p*50, 0, p*50+50, 50, this);			
 		}
 	}
 	
