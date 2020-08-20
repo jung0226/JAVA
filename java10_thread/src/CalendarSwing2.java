@@ -12,7 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class CalendarSwing2 extends JPanel implements ActionListener, Runnable {
+public class CalendarSwing2 extends JPanel implements ActionListener {
 	Font fnt = new Font("돋움체", Font.BOLD, 20);
 	Calendar date  = Calendar.getInstance();
 	int year, month;
@@ -77,8 +77,8 @@ public class CalendarSwing2 extends JPanel implements ActionListener, Runnable {
 			}
 						
 			centerPane.add("Center", dayPane); //center는 생략 가능
-			//setDay(); //날짜 출력		
-			
+			setDay(); //날짜 출력		
+		
 
 		preMonth.addActionListener(this);
 		yearCombo.addActionListener(this);
@@ -137,12 +137,12 @@ public class CalendarSwing2 extends JPanel implements ActionListener, Runnable {
 	public void getNewDate() {
 		dayPane.setVisible(false);
 		dayPane.removeAll();//날짜 지우기
-		//setDay();
+		setDay();
 		dayPane.setVisible(true);
 	}
 	
 	//날짜 출력
-	public void run() {
+	public void setDay() {
 		//요일
 		date.set(year, month, 1);
 		
