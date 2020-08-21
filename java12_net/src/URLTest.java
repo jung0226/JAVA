@@ -37,8 +37,7 @@ public class URLTest {
 				String inData = br.readLine();
 				if(inData==null)break;
 				System.out.println(inData);
-			}
-			
+			}		
 			
 		}catch(Exception e) {
 			e.getMessage();
