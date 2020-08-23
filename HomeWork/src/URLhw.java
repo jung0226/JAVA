@@ -56,7 +56,7 @@ public class URLhw extends JFrame implements ActionListener {
 		try {
 			String urlStr = txtbox.getText();
 			URL url = new URL(urlStr);
-			// URL 객체를 이용하여 URLConnection 객체를 생성한다.
+			
 			URLConnection connection = url.openConnection();
 			connection.connect();// 통신 채널 확보
 
@@ -66,8 +66,8 @@ public class URLhw extends JFrame implements ActionListener {
 			String code = contentType.substring(idx + 8);
 
 			InputStream is = url.openStream();
-			InputStreamReader isr = new InputStreamReader(is, code);// InputStreamReader(InputStream in, String
-																	// charsetName)
+			InputStreamReader isr = new InputStreamReader(is, code);
+																	
 			BufferedReader br = new BufferedReader(isr);
 
 			while (true) {
