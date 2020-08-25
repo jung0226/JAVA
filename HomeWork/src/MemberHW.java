@@ -45,10 +45,7 @@ public class MemberHW extends JFrame implements ActionListener, MouseListener{
 	//선택한 행
 	int row;
 	
-<<<<<<< HEAD
-=======
 	Font fnt=new Font("굴림", Font.PLAIN, 50);
->>>>>>> 5e6ef8fdd59601d4eb8dc469c1c8b473478c0542
 	JPanel northPane = new JPanel(new BorderLayout());
 		JPanel txtnamePane = new JPanel(new GridLayout(5,1)); //번호, 이름 ...
 		String txtname[]= {"번호","이름","주소","전화번호","이메일"};

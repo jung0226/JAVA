@@ -7,5 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="D:/jar/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="D:/jar/commons-math3-3.6.1.jar"/>
+	<classpathentry kind="lib" path="D:/jar/poi-4.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

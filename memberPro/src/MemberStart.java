@@ -7,9 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,6 +22,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
 public class MemberStart extends JFrame implements ActionListener{
 	//폼
@@ -43,11 +52,14 @@ public class MemberStart extends JFrame implements ActionListener{
 	JPanel cPane = new JPanel(new BorderLayout());
 		//메뉴
 		JPanel menuPane = new JPanel();
+			JButton allListBtn = new JButton("전체 목록");
 			JButton addBtn = new JButton("추가");
 			JButton	editBtn = new JButton("수정");
 			JButton delBtn = new JButton("삭제");
 			JButton clearBtn = new JButton("지우기");
 			JButton endBtn = new JButton("종료");
+			JButton excelSaveBtn = new JButton("엑셀로 저장하기");
+			JButton excelOpenBtn = new JButton("엑셀에서 불러오기");
 		//회원목록
 		String title[] = {"번호", "이름", "연락처", "이메일", "주소", "등록일"};
 		DefaultTableModel model = new DefaultTableModel(title,0);
@@ -70,8 +82,10 @@ public class MemberStart extends JFrame implements ActionListener{
 		
 		add(BorderLayout.NORTH, nPane);
 		
-		//메뉴, 회원리스트
+		//메뉴, 회원리스트		
+		menuPane.add(allListBtn); 
 		menuPane.add(addBtn); menuPane.add(editBtn); menuPane.add(delBtn); menuPane.add(clearBtn); menuPane.add(endBtn);
+		menuPane.add(excelSaveBtn); menuPane.add(excelOpenBtn);
 		cPane.add(menuPane, BorderLayout.NORTH);		
 		cPane.add(sp);
 		add(cPane);
@@ -99,11 +113,14 @@ public class MemberStart extends JFrame implements ActionListener{
 			}			
 		});
 		//메뉴 이벤트 등록
+		allListBtn.addActionListener(this);
 		addBtn.addActionListener(this);
 		editBtn.addActionListener(this);
 		delBtn.addActionListener(this);
 		clearBtn.addActionListener(this);
 		endBtn.addActionListener(this);
+		excelSaveBtn.addActionListener(this);
+		excelOpenBtn.addActionListener(this);
 	}
 	
 	//레코드 전체 선택하여 JTable에 추가하기
@@ -201,9 +218,100 @@ public class MemberStart extends JFrame implements ActionListener{
 				 formClear();
 			 }else {
 				 JOptionPane.showMessageDialog(this, "회원 삭제 실패하였습니다.");				 
-			 }
-			 
+			 }			 
 		 }
+	}
+	
+	//엑셀로 JTable 데이터 저장하기
+	public void setExcelSave() {
+		JFileChooser fc = new JFileChooser();
+		int state = fc.showSaveDialog(this);
+		if(state==0) {//저장버튼을 선택했을 때
+			//워크북
+			HSSFWorkbook book = new HSSFWorkbook();
+			//시트
+			HSSFSheet sheet = book.createSheet("회원목록");
+			//제목
+			HSSFRow r = sheet.createRow(0);
+			r.createCell(0).setCellValue("번호");
+			r.createCell(1).setCellValue("이름");
+			r.createCell(2).setCellValue("연락처");
+			r.createCell(3).setCellValue("이메일");
+			r.createCell(4).setCellValue("주소");
+			r.createCell(5).setCellValue("등록일");
+			
+			//행
+			int rowCount = table.getRowCount();//JTable에 있는 레코드 수 구하기
+			for(int row = 0; row<rowCount; row++) {//0~7
+				HSSFRow r1  = sheet.createRow(row+1);
+				//열
+				int columnCount = table.getColumnCount();
+				for(int col=0; col<columnCount; col++) {//0~5
+					if(col==0) {// 숫자로 저장
+						r1.createCell(col).setCellValue((Integer)model.getValueAt(row, col));
+					}else {//문자로 저장
+						r1.createCell(col).setCellValue((String)model.getValueAt(row, col));
+					}
+				}
+			}			
+			//워크북을 파일에 쓰기
+			try {
+				File f = fc.getSelectedFile();
+				FileOutputStream fos = new FileOutputStream(f);
+				
+				book.write(fos);
+				fos.close();
+				book.close();
+				JOptionPane.showMessageDialog(this, "엑셀로 쓰기가 완료되었습니다.");
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(this, "엑셀로 쓰기가 실패하였습니다.");
+			}			
+		}
+	}
+	//엑셀파일을 읽어 JTable에 목록으로 표시하기
+	public void getExcelLoad() {
+		JFileChooser fc = new JFileChooser();
+		int state = fc.showOpenDialog(this);
+		if(state==0) {
+			try {
+				File f = fc.getSelectedFile();
+				FileInputStream fis = new FileInputStream(f);
+				POIFSFileSystem poi = new POIFSFileSystem(fis);
+				
+				//워크북
+				HSSFWorkbook book = new HSSFWorkbook(poi);				
+				//시트
+				HSSFSheet sheet = book.getSheet("회원목록");
+				
+				
+				//JTable의 원래 정보 없애기
+				model.setRowCount(0);
+				
+				//행
+				int rowCount = sheet.getPhysicalNumberOfRows(); //행의 수
+				for(int r = 1; r<rowCount;r++) {
+					HSSFRow row = sheet.getRow(r);
+					//열
+					int cellCount = row.getPhysicalNumberOfCells();//셀의 수
+					Object data[] = new Object[cellCount];
+					for(int c=0; c<cellCount; c++) {
+						if(c==0) {//숫자 읽어오기
+							data[c]=(int)row.getCell(c).getNumericCellValue();
+						}else {//문자 읽어오기
+							data[c]=row.getCell(c).getStringCellValue();
+						}
+					}
+					model.addRow(data);
+				}
+				poi.close();
+				fis.close();		
+				
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	//버튼 이벤트
 	public void actionPerformed(ActionEvent ae) {
@@ -216,6 +324,12 @@ public class MemberStart extends JFrame implements ActionListener{
 			memberEdit();
 		}else if(event == delBtn) {
 			memberDelete();
+		}else if(event == excelSaveBtn) {
+			setExcelSave();
+		}else if(event == excelOpenBtn) {
+			getExcelLoad();
+		}else if(event == allListBtn) {
+			getAllRecord();
 		}
 	}
 
