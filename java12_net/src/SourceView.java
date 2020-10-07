@@ -16,11 +16,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-
 public class SourceView extends JFrame implements ActionListener{
 	JPanel northPane = new JPanel(new BorderLayout());
 		JLabel urlLbl = new JLabel("URL");
-		JTextField urlTf = new JTextField();
+		JTextField urlTf = new JTextField("https://");
 		JButton okBtn = new JButton("소스보기");
 	JTabbedPane tp = new JTabbedPane();
 	
@@ -41,7 +40,7 @@ public class SourceView extends JFrame implements ActionListener{
 	}
 	public void sourceView() {
 		String url = urlTf.getText();
-		if(url.equals("")) {
+		if(!url.equals("")) {
 			try {
 				//소스보기
 				URL urlObj = new URL(url);
@@ -55,7 +54,7 @@ public class SourceView extends JFrame implements ActionListener{
 				BufferedReader br = new BufferedReader(new InputStreamReader(urlObj.openStream(),encode));
 				
 				JTextArea ta = new JTextArea();
-				JScrollPane sp = new JScrollPane();
+				JScrollPane sp = new JScrollPane(ta);
 				
 				while(true) {
 					String inData = br.readLine();

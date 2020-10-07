@@ -29,7 +29,7 @@ public class JTableTest extends JFrame {
 	JLabel lbl = new JLabel("데이터가 표시되는 곳....");
 	
 	public JTableTest() {
-		lbl.setOpaque(true);
+		lbl.setOpaque(true);//불투명
 		lbl.setBackground(new Color(200, 230, 200));
 		add(BorderLayout.SOUTH, lbl);
 		model = new DefaultTableModel(data, title);
