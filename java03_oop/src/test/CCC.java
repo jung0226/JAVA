@@ -4,14 +4,14 @@ public class CCC {
 	protected String tel = "010-1234-5678";
 	protected CCC() {
 
-		 System.out.println("CCC()»ı¼ºÀÚ");
+		 System.out.println("CCC()ìƒì„±ì");
 	}
 	 protected void sum() {
 		 int s=0;
 		 for(int i=0; i<=100; i++) {
 			 s+=i;
 		 }
-		 System.out.println("1~100±îÁöÀÇ ÇÕÀº"+s);
+		 System.out.println("1~100ê¹Œì§€ì˜ í•©ì€"+s);
 	 }
 	 
 	public static CCC getInstance() {
