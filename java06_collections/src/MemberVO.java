@@ -1,6 +1,6 @@
 
 public class MemberVO {
-	//¹øÈ£, ÀÌ¸§, ¿¬¶ôÃ³, ÀÌ¸ŞÀÏ
+	//ë²ˆí˜¸, ì´ë¦„, ì—°ë½ì²˜, ì´ë©”ì¼
 	private int num;
 	private String name;
 	private String tel;
