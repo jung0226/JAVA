@@ -12,5 +12,5 @@ public class GenericTest<V> {
 	} 
 
 }
-//new GenericTest<String>() -->V°¡ StringÀÌ µÇ´Â °Í.
-//new GenericTest<Calendar>() -->V°¡ Calendar°¡ µÇ´Â °Í.
+//new GenericTest<String>() -->Vê°€ Stringì´ ë˜ëŠ” ê²ƒ.
+//new GenericTest<Calendar>() -->Vê°€ Calendarê°€ ë˜ëŠ” ê²ƒ.
