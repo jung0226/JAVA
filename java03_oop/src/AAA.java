@@ -1,7 +1,7 @@
 class AAA {
-	String name="È«±æµ¿";
+	String name="í™ê¸¸ë™";
 	protected AAA() {
-	System.out.println("AAA()»ı¼ºÀÚ ½ÇÇàµÊ.");
+	System.out.println("AAA()ìƒì„±ì ì‹¤í–‰ë¨.");
 	}
 	void print() {
 		System.out.println("AAA.name= "+name);
